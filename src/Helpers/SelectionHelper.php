@@ -1,7 +1,8 @@
 <?php
 namespace EddIriarte\Console\Helpers;
 
-use EddIriarte\Console\Handlers\SelectStreamHandler;
+use EddIriarte\Console\Handlers\SelectHandler;
+use EddIriarte\Console\Interfaces\SelectInput;
 use EddIriarte\Console\Traits\InputStream;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -77,7 +78,7 @@ class SelectionHelper implements HelperInterface
      */
     public function select(SelectInput $question)
     {
-        $select = new SelectStreamHandler($question, $this->output, $this->getInputStream());
+        $select = new SelectHandler($question, $this->output, $this->getInputStream());
 
         $responses = $select->handle();
         // TODO: validate responses  ???

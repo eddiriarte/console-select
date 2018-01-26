@@ -64,7 +64,9 @@ class SelectHandler
     public function handle(): array
     {
         $this->firstRun = true;
-        $this->output->write('<info>' . $this->question->getMessage() . '</info> [SPACE=select,ENTER=submit]');
+        $this->output->writeln(
+            '<info>' . $this->question->getMessage() . '</info> [<comment>SPACE=select</>, <comment>ENTER=submit</>]'
+        );
         $this->repaint();
 
         $sttyMode = shell_exec('stty -g');
@@ -90,7 +92,7 @@ class SelectHandler
         // Reset stty so it behaves normally again
         shell_exec(sprintf('stty %s', $sttyMode));
 
-        $this->output->writeln('this is a <comment>test</comment>: ' . join(', ', $this->question->getSelections()));
+        $this->output->writeln('> ' . join(', ', $this->question->getSelections()));
 
         return $this->question->getSelections();
     }

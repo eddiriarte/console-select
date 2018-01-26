@@ -1,6 +1,8 @@
 <?php
 namespace EddIriarte\Console\Inputs;
 
+use EddIriarte\Console\Inputs\AbstractSelect;
+
 /**
  * Class CheckboxInput
  * @package EddIriarte\Console\Inputs
