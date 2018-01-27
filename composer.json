@@ -9,6 +9,7 @@
             "email": "eddiriarte@gmail.com"
         }
     ],
+    "license": "MIT",
     "require": {
         "php": ">=7.1",
         "symfony/console": "^3.4"
@@ -17,10 +18,13 @@
         "php-mock/php-mock-phpunit": "^2.0",
         "phpunit/phpunit": "6.4.*"
     },
-    "license": "MIT",
     "autoload": {
         "psr-4": {
             "EddIriarte\\Console\\": "src/"
         }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "code-coverage": "phpunit --coverage-html=builds/phpunit/ --log-junit builds/logs/phpunit.xml"
     }
 }

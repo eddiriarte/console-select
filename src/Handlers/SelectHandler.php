@@ -102,7 +102,7 @@ class SelectHandler
      * @param $column
      * @return bool
      */
-    protected function exists($row, $column): bool
+    public function exists($row, $column): bool
     {
         return $this->question->hasEntryAt($row, $column);
     }
@@ -190,7 +190,7 @@ class SelectHandler
     /**
      *
      */
-    protected function repaint(): void
+    public function repaint(): void
     {
         $message = $this->message();
         if (!$this->firstRun) {
@@ -204,7 +204,7 @@ class SelectHandler
     /**
      *
      */
-    protected function clear(): void
+    public function clear(): void
     {
         // Move the cursor to the beginning of the line
         $this->output->write("\x0D");
@@ -220,7 +220,7 @@ class SelectHandler
     /**
      * @return string
      */
-    public function message(): string
+    protected function message(): string
     {
         $chunks = $this->question->getChunks();
         return join(PHP_EOL, array_map(function ($entries) use ($chunks) {

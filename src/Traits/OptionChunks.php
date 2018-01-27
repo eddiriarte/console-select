@@ -59,14 +59,16 @@ trait OptionChunks
     /**
      * @param int $rowIndex
      * @param int $colIndex
-     * @return null
+     * @return string
+     * @throws \Exception
      */
-    public function getEntryAt(int $rowIndex, int $colIndex)
+    public function getEntryAt(int $rowIndex, int $colIndex): string
     {
         if ($this->hasEntryAt($rowIndex, $colIndex)) {
             return $this->getChunks()[$rowIndex][$colIndex];
         }
 
-        return null;
+        //TODO implement a proper exception
+        throw new \Exception('Unknown index!');
     }
 }

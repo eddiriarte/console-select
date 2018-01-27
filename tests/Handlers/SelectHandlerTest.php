@@ -57,37 +57,55 @@ class SelectHandlerTest extends TestCase
         $this->assertEquals('two', $selections[1]);
     }
 
-    // /**
-    //  * @test
-    //  * @dataProvider provideExistenceCheckers
-    //  */
-    // public function it_checks_option_existence($handler, $row, $column, $expected)
-    // {
-    //     $exists = $handler->exists($row, $column);
+    /**
+     * @test
+     */
+    public function it_handles_selection_toggle()
+    {
+        $question = new CheckboxInput('Select one', ['one', 'two', 'three']);
+        $stream = $this->getInputStream(Key::RIGHT . Key::RIGHT . Key::SELECT . Key::LEFT . Key::SELECT . Key::RIGHT . Key::SELECT . Key::SUBMIT);
+        $output = $this->createOutputInterface();
 
-    //     $this->assertEquals($expected, $exists);
-    // }
+        $handler = new SelectHandler($question, $output, $stream);
 
-    // public function provideExistenceCheckers()
-    // {
-    //     $question = new CheckboxInput('Select one', [
-    //         'one', 'two', 'three',
-    //         'four', 'five', 'six',
-    //         'seven',
-    //     ]);
-    //     $stream = $this->getInputStream("");
-    //     $output = $this->createOutputInterface();
+        $handler->handle();
 
-    //     $handler = new SelectHandler($question, $output, $stream);
+        $selections = $question->getSelections();
+        $this->assertCount(1, $selections);
+        $this->assertEquals('two', $selections[0]);
+    }
 
-    //     return [
-    //         [$handler, 1, 1, true],
-    //         [$handler, 4, 1, false],
-    //         [$handler, 2, 2, true],
-    //         [$handler, 1, 4, false],
-    //         [$handler, 3, 3, false],
-    //     ];
-    // }
+    /**
+     * @test
+     * @dataProvider provideExistenceCheckers
+     */
+    public function it_checks_option_existence($handler, $row, $column, $expected)
+    {
+        $exists = $handler->exists($row, $column);
+
+        $this->assertEquals($expected, $exists);
+    }
+
+    public function provideExistenceCheckers()
+    {
+        $question = new CheckboxInput('Select one', [
+            'one', 'two', 'three',
+            'four', 'five', 'six',
+            'seven',
+        ]);
+        $stream = $this->getInputStream("");
+        $output = $this->createOutputInterface();
+
+        $handler = new SelectHandler($question, $output, $stream);
+
+        return [
+            [$handler, 0, 0, true],
+            [$handler, 3, 0, false],
+            [$handler, 1, 1, true],
+            [$handler, 0, 3, false],
+            [$handler, 2, 2, false],
+        ];
+    }
 
     protected function getInputStream($input)
     {

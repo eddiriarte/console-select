@@ -11,6 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class SelectionHelper
+ * 
+ * Its used for registration to symfonys output helpers.
+ * 
  * @package EddIriarte\Console\Helpers
  * @author Eduardo Iriarte <eddiriarte[at]gmail[dot]com>
  */
