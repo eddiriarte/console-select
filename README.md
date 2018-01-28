@@ -9,7 +9,51 @@
   <p>A fancy selection interface for symfony's console component.</p>
 </center>
 
+;) current working progress...
+
+![Sample](docs/sample.gif)
+
+## Install
+
+```
+composer require eddiriarte/console-select
+```
+
+## Usage
+
+After installation register helper to your symfony's/laravel's/laravel-zero's command. Maybe in the constructor...
+
+```php
+# importing : \EddIriarte\Console\Helpers\SelectionHelper
+# pasing the input and output interfaces
+$this->getHelperSet()->set(
+  new SelectionHelper($this->input, $this->output)
+);
+```
+
+You could include a `select` method(in the command) as shorthand to acces helper: 
+
+```php
+# importing : \EddIriarte\Console\Inputs\CheckboxInput
+#             \EddIriarte\Console\Inputs\CheckboxInput
+public function select(string $message, array $options, bool $allowMultiple = true): array
+{
+    $helper = $this->getHelper('selection');
+    $question = $allowMultiple ? new CheckboxInput($message, $options) : new RadioInput($message, $options);
+
+    return $helper->select($question);
+}
+```
+
+...thinking about put this stuff in a trait(??)
+
+
 ... more description will come soon!
+
+## Still to do
+
+Validations, Type-mapping, User-Interruptions, Code-Coverage, Release...
+
 
 
 ## MIT License

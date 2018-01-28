@@ -83,6 +83,8 @@ class SelectHandler
                 $this->tryCellNavigation($char);
             } elseif (10 === ord($char)) {
                 //TODO handle valid state...
+                $this->clear();
+                $this->output->write('> ' . join(', ', $this->question->getSelections()));
                 $this->output->write($char);
                 break;
             }
@@ -92,7 +94,7 @@ class SelectHandler
         // Reset stty so it behaves normally again
         shell_exec(sprintf('stty %s', $sttyMode));
 
-        $this->output->writeln('> ' . join(', ', $this->question->getSelections()));
+        $this->output->writeln(' ');
 
         return $this->question->getSelections();
     }

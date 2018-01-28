@@ -107,6 +107,26 @@ class SelectHandlerTest extends TestCase
         ];
     }
 
+    /**
+     * @test
+     */
+    public function it_clears_checkbox_output()
+    {
+        $question = new CheckboxInput('Select one', [
+            'one', 'two', 'three',
+        ]);
+        $stream = $this->getInputStream("");
+        $output = $this->createOutputInterface();
+
+        $handler = new SelectHandler($question, $output, $stream);
+
+        $handler->repaint();
+
+        $exists = $handler->exists($row, $column);
+
+        $this->assertEquals($expected, $exists);
+    }
+
     protected function getInputStream($input)
     {
         $stream = fopen('php://memory', 'r+', false);
