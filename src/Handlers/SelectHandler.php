@@ -3,6 +3,7 @@ namespace EddIriarte\Console\Handlers;
 
 use EddIriarte\Console\Interfaces\SelectInput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Terminal;
 
 /**
  * Class SelectHandler
@@ -40,6 +41,11 @@ class SelectHandler
      * @var bool
      */
     protected $firstRun;
+
+    /**
+     * @var int
+     */
+    protected $terminalWidth;
 
     /**
      * SelectStreamHandler constructor.
@@ -224,10 +230,12 @@ class SelectHandler
      */
     protected function message(): string
     {
-        $chunks = $this->question->getChunks();
-        return join(PHP_EOL, array_map(function ($entries) use ($chunks) {
+        $chunkSize = $this->chunkSize();
+        $chunks = $this->question->getChunks($chunkSize);
+        $columnSpace = floor(($this->terminalWidth() - ($chunkSize * 5)) / $chunkSize);
+        return join(PHP_EOL, array_map(function ($entries) use ($chunks, $columnSpace) {
             $hasCursor = (bool) ($this->row === array_search($entries, $chunks));
-            return $this->makeRow($entries, ($hasCursor ? $this->column : -10));
+            return $this->makeRow($entries, ($hasCursor ? $this->column : -10), $columnSpace);
         }, $chunks));
     }
 
@@ -236,11 +244,11 @@ class SelectHandler
      * @param int $activeColumn
      * @return mixed
      */
-    protected function makeRow(array $entries, int $activeColumn)
+    protected function makeRow(array $entries, int $activeColumn, int $columnSpace)
     {
-        return array_reduce($entries, function ($carry, $item) use ($entries, $activeColumn) {
+        return array_reduce($entries, function ($carry, $item) use ($entries, $activeColumn, $columnSpace) {
             $isActive = ($activeColumn === array_search($item, $entries));
-            return $carry . $this->makeCell($item, $isActive, 17);
+            return $carry . $this->makeCell($item, $isActive, $columnSpace);
         }, '');
     }
 
@@ -252,13 +260,33 @@ class SelectHandler
      */
     protected function makeCell(string $option, bool $hasCursor = false, int $maxWidth = 20): string
     {
+        $selected = $this->question->isSelected($option);
         $name = substr($option, 0, ($maxWidth - 1));
+
         return sprintf(
-            ' [<info>%1$s</info>] <%4$s>%2$s</>%3$s',
-            ($this->question->isSelected($option) ? '✔' : ' '),
-            $name,
-            str_repeat(' ', $maxWidth - strlen($name)),
-            ($hasCursor ? 'info' : 'comment')
+            $hasCursor ? ' <hl> %1$s %2$s </hl>' : ' <%3$s> %1$s %2$s </%3$s>',
+            ($selected ? '●' : '○'),
+            $name . str_repeat(' ', $maxWidth - mb_strlen($name)),
+            ($selected ? 'info' : 'comment')
         );
+    }
+
+    public function terminalWidth()
+    {
+        return (new Terminal)->getWidth();
+    }
+
+    public function chunkSize()
+    {
+        $max = $this->terminalWidth();
+        $largest = array_reduce($this->question->getOptions(), 'max', 0);
+
+        if ($largest > ($max / 2)) {
+            return 1;
+        } elseif ($largest > ($max / 3)) {
+            return 2;
+        } else {
+            return 3;
+        }
     }
 }

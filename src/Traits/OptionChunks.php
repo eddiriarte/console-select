@@ -10,13 +10,19 @@ trait OptionChunks
 {
     protected $chunks;
 
+    protected $chunkSize = 3;
+
     /**
      * @return array
      */
-    public function getChunks(): array
+    public function getChunks(int $chunkSize = null): array
     {
+        if (!is_null($chunkSize)) {
+            $this->chunkSize = $chunkSize;
+        }
+
         if (!isset($this->chunks)) {
-            $this->chunks = array_chunk($this->options, 3);
+            $this->chunks = array_chunk($this->options, $this->chunkSize);
         }
 
         return $this->chunks;

@@ -4,16 +4,18 @@ namespace EddIriarte\Console\Helpers;
 use EddIriarte\Console\Handlers\SelectHandler;
 use EddIriarte\Console\Interfaces\SelectInput;
 use EddIriarte\Console\Traits\InputStream;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Terminal;
 
 /**
  * Class SelectionHelper
- * 
+ *
  * Its used for registration to symfonys output helpers.
- * 
+ *
  * @package EddIriarte\Console\Helpers
  * @author Eduardo Iriarte <eddiriarte[at]gmail[dot]com>
  */
@@ -47,6 +49,7 @@ class SelectionHelper implements HelperInterface
         $this->output = $output;
 
         $this->checkAnsiSupport();
+        $this->setOutputStyles();
     }
 
     /**
@@ -102,5 +105,13 @@ class SelectionHelper implements HelperInterface
         // $this->overwrite = false;
         // // set a reasonable redraw frequency so output isn't flooded
         // $this->setRedrawFrequency(10);
+    }
+
+    protected function setOutputStyles()
+    {
+        if (!$this->output->getFormatter()->hasStyle('hl')) {
+            $style = new OutputFormatterStyle('black', 'white');
+            $this->output->getFormatter()->setStyle('hl', $style);
+        }
     }
 }
