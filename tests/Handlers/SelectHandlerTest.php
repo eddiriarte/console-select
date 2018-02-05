@@ -115,16 +115,21 @@ class SelectHandlerTest extends TestCase
         $question = new CheckboxInput('Select one', [
             'one', 'two', 'three',
         ]);
-        $stream = $this->getInputStream("");
-        $output = $this->createOutputInterface();
+        $stream = $this->getInputStream(Key::SELECT.Key::SELECT.Key::SELECT);
+
+        $handle = fopen('/tmp/output-test.log', 'w+');
+        $output = new StreamOutput($handle);
+        $output = $this->createOutputInterface(true);
 
         $handler = new SelectHandler($question, $output, $stream);
 
-        $handler->repaint();
+        // $handler->handle();
 
-        $exists = $handler->exists($row, $column);
+        $output->writeln('buu!');
+        var_dump(stream_get_contents($output->getStream()));
 
-        $this->assertEquals($expected, $exists);
+        $this->assertTrue(true);
+        fclose($handle);
     }
 
     protected function getInputStream($input)
@@ -150,8 +155,10 @@ class SelectHandlerTest extends TestCase
         return $mock;
     }
 
-    protected function createOutputInterface()
+    protected function createOutputInterface(bool $canWrite = false)
     {
-        return new StreamOutput(fopen('php://memory', 'r+', false));
+        return new StreamOutput(
+            fopen('php://memory', ($canWrite ? 'w+' : 'r+'), false)
+        );
     }
 }
