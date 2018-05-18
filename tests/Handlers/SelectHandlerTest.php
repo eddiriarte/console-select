@@ -5,29 +5,22 @@ use EddIriarte\Console\Handlers\SelectHandler;
 use EddIriarte\Console\Inputs\CheckboxInput;
 use EddIriarte\Console\Inputs\RadioInput;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Input\StreamableInputInterface;
-use Symfony\Component\Console\Output\StreamOutput;
-
-interface Key
-{
-    const UP = "\033[C";
-    const DOWN = "\033[C";
-    const RIGHT = "\033[C";
-    const LEFT = "\033[D";
-    const SUBMIT = "\n";
-    const SELECT = " ";
-}
+use Symfony\Component\Console\Output\OutputInterface;
+use Tests\InputOutputStreamMocks;
+use Tests\Key;
 
 class SelectHandlerTest extends TestCase
 {
+    use InputOutputStreamMocks;
+
     /**
      * @test
      */
     public function it_handles_radio_inputs()
     {
         $question = new RadioInput('Select one', ['one', 'two', 'three']);
-        $stream = $this->getInputStream(Key::RIGHT . Key::RIGHT . Key::SELECT . Key::LEFT . Key::SELECT . Key::SUBMIT);
         $output = $this->createOutputInterface();
+        $stream = $this->getInputStream(Key::RIGHT . Key::RIGHT . Key::SELECT . Key::LEFT . Key::SELECT . Key::SUBMIT);
 
         $handler = new SelectHandler($question, $output, $stream);
 
@@ -44,8 +37,8 @@ class SelectHandlerTest extends TestCase
     public function it_handles_checkboxes_inputs()
     {
         $question = new CheckboxInput('Select one', ['one', 'two', 'three']);
-        $stream = $this->getInputStream(Key::RIGHT . Key::RIGHT . Key::SELECT . Key::LEFT . Key::SELECT . Key::SUBMIT);
         $output = $this->createOutputInterface();
+        $stream = $this->getInputStream(Key::RIGHT . Key::RIGHT . Key::SELECT . Key::LEFT . Key::SELECT . Key::SUBMIT);
 
         $handler = new SelectHandler($question, $output, $stream);
 
@@ -63,8 +56,8 @@ class SelectHandlerTest extends TestCase
     public function it_handles_selection_toggle()
     {
         $question = new CheckboxInput('Select one', ['one', 'two', 'three']);
-        $stream = $this->getInputStream(Key::RIGHT . Key::RIGHT . Key::SELECT . Key::LEFT . Key::SELECT . Key::RIGHT . Key::SELECT . Key::SUBMIT);
         $output = $this->createOutputInterface();
+        $stream = $this->getInputStream(Key::RIGHT . Key::RIGHT . Key::SELECT . Key::LEFT . Key::SELECT . Key::RIGHT . Key::SELECT . Key::SUBMIT);
 
         $handler = new SelectHandler($question, $output, $stream);
 
@@ -93,8 +86,8 @@ class SelectHandlerTest extends TestCase
             'four', 'five', 'six',
             'seven',
         ]);
-        $stream = $this->getInputStream("");
         $output = $this->createOutputInterface();
+        $stream = $this->getInputStream("");
 
         $handler = new SelectHandler($question, $output, $stream);
 
@@ -112,53 +105,108 @@ class SelectHandlerTest extends TestCase
      */
     public function it_clears_checkbox_output()
     {
-        $question = new CheckboxInput('Select one', [
+        $question = new CheckboxInput('Select an item', [
             'one', 'two', 'three',
         ]);
-        $stream = $this->getInputStream(Key::SELECT.Key::SELECT.Key::SELECT);
 
-        $handle = fopen('/tmp/output-test.log', 'w+');
-        $output = new StreamOutput($handle);
-        $output = $this->createOutputInterface(true);
+        $buffer = new TestConsoleBuffer;
 
+        $output = $this->getMockBuilder(OutputInterface::class)->getMock();
+        $output->expects($this->any())
+            ->method('write')
+            ->will($this->returnCallback(\Closure::fromCallable([$buffer, 'write'])));
+
+        $output->expects($this->any())
+            ->method('writeln')
+            ->will($this->returnCallback(\Closure::fromCallable([$buffer, 'writeln'])));
+
+        $stream = $this->getInputStream(Key::RIGHT);
         $handler = new SelectHandler($question, $output, $stream);
 
-        // $handler->handle();
+        $handler->repaint();
+        $this->assertCount(1, $buffer->getLines());
+        $before = $buffer->getLines()[0];
 
-        $output->writeln('buu!');
-        var_dump(stream_get_contents($output->getStream()));
+        $handler->clear();
+        $this->assertCount(1, $buffer->getLines());
+        $after = $buffer->getLines()[0];
 
-        $this->assertTrue(true);
-        fclose($handle);
+        $this->assertNotEquals($before, $after);
     }
 
-    protected function getInputStream($input)
+    /**
+     * @test
+     */
+    public function it_can_navigate_down()
     {
-        $stream = fopen('php://memory', 'r+', false);
-        fwrite($stream, $input);
-        rewind($stream);
-        return $stream;
+        $question = new CheckboxInput('Select an item', [
+            'one', 'two', 'three', 'four', 'five', 'six',
+        ]);
+
+        $buffer = new TestConsoleBuffer;
+
+        $output = $this->getMockBuilder(OutputInterface::class)->getMock();
+        $output->expects($this->any())
+            ->method('write')
+            ->will($this->returnCallback(\Closure::fromCallable([$buffer, 'write'])));
+
+        $output->expects($this->any())
+            ->method('writeln')
+            ->will($this->returnCallback(\Closure::fromCallable([$buffer, 'writeln'])));
+
+        $stream = $this->getInputStream(Key::DOWN . Key::SELECT);
+        $handler = new SelectHandler($question, $output, $stream);
+        $handler->handle();
+
+        list($selection) = $question->getSelections();
+        $this->assertEquals('four', $selection);
     }
 
-    protected function createStreamableInputInterface($stream = null, $interactive = true)
+    /**
+     * @test
+     */
+    public function it_can_navigate_up()
     {
-        $mock = $this->getMockBuilder(StreamableInputInterface::class)->getMock();
-        $mock->expects($this->any())
-            ->method('isInteractive')
-            ->will($this->returnValue($interactive));
-        if ($stream) {
-            $mock->expects($this->any())
-                ->method('getStream')
-                ->willReturn($stream);
-        }
+        $question = new CheckboxInput('Select an item', [
+            'one', 'two', 'three', 'four', 'five', 'six',
+        ]);
 
-        return $mock;
+        $buffer = new TestConsoleBuffer;
+
+        $output = $this->getMockBuilder(OutputInterface::class)->getMock();
+        $output->expects($this->any())
+            ->method('write')
+            ->will($this->returnCallback(\Closure::fromCallable([$buffer, 'write'])));
+
+        $output->expects($this->any())
+            ->method('writeln')
+            ->will($this->returnCallback(\Closure::fromCallable([$buffer, 'writeln'])));
+
+        $stream = $this->getInputStream(Key::DOWN . Key::RIGHT . Key::UP . Key::SELECT);
+        $handler = new SelectHandler($question, $output, $stream);
+        $handler->handle();
+
+        list($selection) = $question->getSelections();
+        $this->assertEquals('two', $selection);
+    }
+}
+
+class TestConsoleBuffer
+{
+    protected $buffer = "";
+
+    public function write($msg, $level)
+    {
+        $this->buffer .= $msg;
     }
 
-    protected function createOutputInterface(bool $canWrite = false)
+    public function writeln($msg, $level)
     {
-        return new StreamOutput(
-            fopen('php://memory', ($canWrite ? 'w+' : 'r+'), false)
-        );
+        $this->write($msg . PHP_EOL, $level);
+    }
+
+    public function getLines()
+    {
+        return explode(PHP_EOL, $this->buffer);
     }
 }

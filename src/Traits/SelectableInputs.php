@@ -5,8 +5,10 @@ use EddIriarte\Console\Helpers\SelectionHelper;
 use EddIriarte\Console\Inputs\CheckboxInput;
 use EddIriarte\Console\Inputs\RadioInput;
 
-trait WithSelections
+trait SelectableInputs
 {
+    abstract public function getHelperSet();
+
     public function enableSelectHelper()
     {
         $this->getHelperSet()->set(

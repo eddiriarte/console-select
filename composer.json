@@ -24,6 +24,11 @@
             "EddIriarte\\Console\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "test": "phpunit",
         "code-coverage": "phpunit --coverage-html=builds/phpunit/ --log-junit builds/logs/phpunit.xml"
