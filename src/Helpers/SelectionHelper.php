@@ -2,14 +2,12 @@
 namespace EddIriarte\Console\Helpers;
 
 use EddIriarte\Console\Handlers\SelectHandler;
-use EddIriarte\Console\Interfaces\SelectInput;
-use EddIriarte\Console\Traits\InputStream;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Terminal;
+use EddIriarte\Console\Inputs\Interfaces\SelectInput;
 
 /**
  * Class SelectionHelper
@@ -21,7 +19,7 @@ use Symfony\Component\Console\Terminal;
  */
 class SelectionHelper implements HelperInterface
 {
-    use InputStream;
+    use StreamableInput;
 
     /**
      * @var InputInterface

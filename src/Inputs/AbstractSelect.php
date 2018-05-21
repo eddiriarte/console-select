@@ -1,8 +1,9 @@
 <?php
 namespace EddIriarte\Console\Inputs;
 
-use EddIriarte\Console\Interfaces\SelectInput;
-use EddIriarte\Console\Traits\OptionChunks;
+use EddIriarte\Console\Inputs\Traits\ChunkableOptions;
+use EddIriarte\Console\Inputs\Interfaces\SelectInput;
+
 
 /**
  * Class AbstractSelect
@@ -11,7 +12,7 @@ use EddIriarte\Console\Traits\OptionChunks;
  */
 abstract class AbstractSelect implements SelectInput
 {
-    use OptionChunks;
+    use ChunkableOptions;
 
     protected $message;
 

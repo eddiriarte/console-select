@@ -20,7 +20,14 @@ class SelectHandlerTest extends TestCase
     {
         $question = new RadioInput('Select one', ['one', 'two', 'three']);
         $output = $this->createOutputInterface();
-        $stream = $this->getInputStream(Key::RIGHT . Key::RIGHT . Key::SELECT . Key::LEFT . Key::SELECT . Key::SUBMIT);
+        $stream = $this->getInputStream(
+            Key::RIGHT .
+            Key::RIGHT .
+            Key::SELECT .
+            Key::LEFT .
+            Key::SELECT .
+            Key::SUBMIT
+        );
 
         $handler = new SelectHandler($question, $output, $stream);
 
@@ -38,7 +45,14 @@ class SelectHandlerTest extends TestCase
     {
         $question = new CheckboxInput('Select one', ['one', 'two', 'three']);
         $output = $this->createOutputInterface();
-        $stream = $this->getInputStream(Key::RIGHT . Key::RIGHT . Key::SELECT . Key::LEFT . Key::SELECT . Key::SUBMIT);
+        $stream = $this->getInputStream(
+            Key::RIGHT .
+            Key::RIGHT .
+            Key::SELECT .
+            Key::LEFT .
+            Key::SELECT .
+            Key::SUBMIT
+        );
 
         $handler = new SelectHandler($question, $output, $stream);
 
@@ -57,7 +71,16 @@ class SelectHandlerTest extends TestCase
     {
         $question = new CheckboxInput('Select one', ['one', 'two', 'three']);
         $output = $this->createOutputInterface();
-        $stream = $this->getInputStream(Key::RIGHT . Key::RIGHT . Key::SELECT . Key::LEFT . Key::SELECT . Key::RIGHT . Key::SELECT . Key::SUBMIT);
+        $stream = $this->getInputStream(
+            Key::RIGHT .
+            Key::RIGHT .
+            Key::SELECT .
+            Key::LEFT .
+            Key::SELECT .
+            Key::RIGHT .
+            Key::SELECT .
+            Key::SUBMIT
+        );
 
         $handler = new SelectHandler($question, $output, $stream);
 
@@ -154,7 +177,10 @@ class SelectHandlerTest extends TestCase
             ->method('writeln')
             ->will($this->returnCallback(\Closure::fromCallable([$buffer, 'writeln'])));
 
-        $stream = $this->getInputStream(Key::DOWN . Key::SELECT);
+        $stream = $this->getInputStream(
+            Key::DOWN .
+            Key::SELECT
+        );
         $handler = new SelectHandler($question, $output, $stream);
         $handler->handle();
 
@@ -182,7 +208,12 @@ class SelectHandlerTest extends TestCase
             ->method('writeln')
             ->will($this->returnCallback(\Closure::fromCallable([$buffer, 'writeln'])));
 
-        $stream = $this->getInputStream(Key::DOWN . Key::RIGHT . Key::UP . Key::SELECT);
+        $stream = $this->getInputStream(
+            Key::DOWN .
+            Key::RIGHT .
+            Key::UP .
+            Key::SELECT
+        );
         $handler = new SelectHandler($question, $output, $stream);
         $handler->handle();
 

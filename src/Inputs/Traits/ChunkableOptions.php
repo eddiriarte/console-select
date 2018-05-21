@@ -1,12 +1,15 @@
 <?php
-namespace EddIriarte\Console\Traits;
+namespace EddIriarte\Console\Inputs\Traits;
+
+use EddIriarte\Console\Inputs\Exceptions\IndexOutOfRange;
+
 
 /**
- * Trait OptionChunks
- * @package EddIriarte\Console\Traits
+ * Trait ChunkableOptions
+ * @package EddIriarte\Console\Inputs\Traits
  * @author Eduardo Iriarte <eddiriarte[at]gmail[dot]com>
  */
-trait OptionChunks
+trait ChunkableOptions
 {
     protected $chunks;
 
@@ -22,7 +25,7 @@ trait OptionChunks
         }
 
         if (!isset($this->chunks)) {
-            $this->chunks = array_chunk($this->options, $this->chunkSize);
+            $this->chunks = array_chunk($this->getOptions(), $this->chunkSize);
         }
 
         return $this->chunks;
@@ -31,7 +34,7 @@ trait OptionChunks
     /**
      * @param int $index
      * @return array
-     * @throws \Exception
+     * @throws EddIriarte\Console\Inputs\Exceptions\IndexOutOfRange
      */
     public function getChunkAt(int $index): array
     {
@@ -39,8 +42,7 @@ trait OptionChunks
             return $this->getChunks()[$index];
         }
 
-        //TODO implement a proper exception
-        throw new \Exception('Unknown index!');
+        throw new IndexOutOfRange($index);
     }
 
     /**
@@ -66,7 +68,7 @@ trait OptionChunks
      * @param int $rowIndex
      * @param int $colIndex
      * @return string
-     * @throws \Exception
+     * @throws EddIriarte\Console\Inputs\Exceptions\IndexOutOfRange
      */
     public function getEntryAt(int $rowIndex, int $colIndex): string
     {
@@ -74,7 +76,6 @@ trait OptionChunks
             return $this->getChunks()[$rowIndex][$colIndex];
         }
 
-        //TODO implement a proper exception
-        throw new \Exception('Unknown index!');
+        throw new IndexOutOfRange("{$rowIndex}:{$colIndex}");
     }
 }

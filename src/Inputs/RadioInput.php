@@ -2,8 +2,8 @@
 
 namespace EddIriarte\Console\Inputs;
 
-use EddIriarte\Console\Interfaces\SelectInput;
-use EddIriarte\Console\Traits\OptionChunks;
+use EddIriarte\Console\Inputs\Exceptions\UnknownOption;
+
 
 /**
  * Class RadioInput
@@ -17,6 +17,10 @@ class RadioInput extends AbstractSelect
      */
     public function select(string $option): void
     {
+        if (empty(array_intersect($this->options, [$option]))) {
+            throw new UnknownOption($option);
+        }
+
         $this->selections = $this->isSelected($option) ? [] : [$option];
     }
 }

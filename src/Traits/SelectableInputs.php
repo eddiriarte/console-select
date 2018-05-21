@@ -7,12 +7,10 @@ use EddIriarte\Console\Inputs\RadioInput;
 
 trait SelectableInputs
 {
-    abstract public function getHelperSet();
-
     public function enableSelectHelper()
     {
         $this->getHelperSet()->set(
-            new SelectionHelper($this->input, $this->output)
+            new SelectionHelper($this->getInput(), $this->getOutput())
         );
     }
 

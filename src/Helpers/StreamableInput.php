@@ -1,14 +1,14 @@
 <?php
-namespace EddIriarte\Console\Traits;
+namespace EddIriarte\Console\Helpers;
 
 use Symfony\Component\Console\Input\StreamableInputInterface;
 
 /**
  * Trait OptionChunks
- * @package EddIriarte\Console\Traits
+ * @package EddIriarte\Console\Helpers
  * @author Eduardo Iriarte <eddiriarte[at]gmail[dot]com>
  */
-trait InputStream
+trait StreamableInput
 {
     /**
      * @var resource

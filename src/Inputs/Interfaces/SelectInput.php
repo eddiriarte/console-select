@@ -1,9 +1,9 @@
 <?php
-namespace EddIriarte\Console\Interfaces;
+namespace EddIriarte\Console\Inputs\Interfaces;
 
 /**
  * Interface SelectInput
- * @package EddIriarte\Console\Interfaces
+ * @package EddIriarte\Console\Inputs\Interfaces
  * @author Eduardo Iriarte <eddiriarte[at]gmail[dot]com>
  */
 interface SelectInput

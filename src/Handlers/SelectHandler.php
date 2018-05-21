@@ -1,9 +1,9 @@
 <?php
 namespace EddIriarte\Console\Handlers;
 
-use EddIriarte\Console\Interfaces\SelectInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Terminal;
+use EddIriarte\Console\Inputs\Interfaces\SelectInput;
 
 /**
  * Class SelectHandler
