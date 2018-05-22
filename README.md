@@ -112,7 +112,7 @@ $selected = $this->select(
 
 ## Still to do
 
-- Handle user-interruptions, such as "Ctrl-C"
+- Handle user-interruptions, such as `Ctrl+C`
 
 ## MIT License
 
