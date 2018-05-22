@@ -1,27 +1,33 @@
-<center>
-  <h1>
-    Console-Selection
-  </h1>
-  <img src="http://forthebadge.com/images/badges/gluten-free.svg">
-  <img src="http://forthebadge.com/images/badges/built-by-developers.svg">
-  <img src="http://forthebadge.com/images/badges/check-it-out.svg">
-  
-  <p>A fancy selection interface for symfony's console component.</p>
-</center>
+# Console-Selection
 
-;) current working progress...
+A fancy selection interface for symfony's console component.
+
+![gluten-free](http://forthebadge.com/images/badges/gluten-free.svg)
+![built-by-developers](http://forthebadge.com/images/badges/built-by-developers.svg)
+![check-it-out](http://forthebadge.com/images/badges/check-it-out.svg)
 
 ![Sample](docs/sample.gif)
 
 ## Install
 
-```
+```sh
 composer require eddiriarte/console-select
 ```
 
-## Usage
+### On Laravel/Laravel-Zero
 
-After installation register helper to your symfony's/laravel's/laravel-zero's command. Maybe in the constructor...
+Add the `SelectServiceProvider` to your provider list
+
+```php
+// app.php
+'providers' => [
+    EddIriarte\Console\Providers\SelectServiceProvider::class,
+],
+```
+
+### On Symfony
+
+Add the `EddIriarte\Console\Traits\SelectableInputs` trait to your command class
 
 ```php
 # importing : \EddIriarte\Console\Helpers\SelectionHelper
@@ -31,30 +37,82 @@ $this->getHelperSet()->set(
 );
 ```
 
-You could include a `select` method(in the command) as shorthand to acces helper: 
+## Checkboxes
+
+Useful when you need several answers from the user.
 
 ```php
-# importing : \EddIriarte\Console\Inputs\CheckboxInput
-#             \EddIriarte\Console\Inputs\CheckboxInput
-public function select(string $message, array $options, bool $allowMultiple = true): array
-{
-    $helper = $this->getHelper('selection');
-    $question = $allowMultiple ? new CheckboxInput($message, $options) : new RadioInput($message, $options);
-
-    return $helper->select($question);
-}
+$selected = $this->select(
+  'Select characters that appeared in "Star Wars,  Episode I - The phantom menace"',
+  [
+    'Ahsoka Tano',
+    'Anakin Skywalker',
+    'Boba Fett',
+    'Chewbacca',
+    'Count Dooku',
+    'Darth Maul',
+    'Darth Vader',
+    'Finn',
+    'Han Solo',
+    'Jabba the Hutt',
+    'Jar Jar Binks',
+    'Kylo Ren',
+    'Lando Calrissian',
+    'Luke Skywalker',
+    'Mace Windu',
+    'Obi-Wan Kenobi',
+    'Padmé Amidala',
+    'Sheev Palpatine',
+    'Poe Dameron',
+    'Princess Leia Organa',
+    'Qui-Gon Jinn',
+    'Rey',
+    'Watto',
+    'Yoda',
+  ]
+);
 ```
 
-...thinking about put this stuff in a trait(??)
+## Radio
 
+Useful when you need the user to pick only one anwer from the list.
 
-... more description will come soon!
+```php
+$selected = $this->select(
+  'What is the name of the ancient Jedi master that lives at the swamps of Dagobah',
+  [
+    'Ahsoka Tano',
+    'Anakin Skywalker',
+    'Boba Fett',
+    'Chewbacca',
+    'Count Dooku',
+    'Darth Maul',
+    'Darth Vader',
+    'Finn',
+    'Han Solo',
+    'Jabba the Hutt',
+    'Jar Jar Binks',
+    'Kylo Ren',
+    'Lando Calrissian',
+    'Luke Skywalker',
+    'Mace Windu',
+    'Obi-Wan Kenobi',
+    'Padmé Amidala',
+    'Sheev Palpatine',
+    'Poe Dameron',
+    'Princess Leia Organa',
+    'Qui-Gon Jinn',
+    'Rey',
+    'Watto',
+    'Yoda',
+  ],
+  false // third argument(bool) that allows multiple selections (default: true)
+);
+```
 
 ## Still to do
 
-Validations, Type-mapping, User-Interruptions, Code-Coverage, Release...
-
-
+- Handle user-interruptions, such as "Ctrl-C"
 
 ## MIT License
 
