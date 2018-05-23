@@ -2,6 +2,10 @@
 
 A fancy selection interface for symfony's console component.
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eddiriarte/console-select/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eddiriarte/console-select/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/eddiriarte/console-select/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/eddiriarte/console-select/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/eddiriarte/console-select/badges/build.png?b=master)](https://scrutinizer-ci.com/g/eddiriarte/console-select/build-status/master)
+
 ![gluten-free](http://forthebadge.com/images/badges/gluten-free.svg)
 ![built-by-developers](http://forthebadge.com/images/badges/built-by-developers.svg)
 ![check-it-out](http://forthebadge.com/images/badges/check-it-out.svg)
