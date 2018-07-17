@@ -12,6 +12,15 @@ A fancy selection interface for symfony's console component.
 
 ![Sample](docs/sample.gif)
 
+## Requirements 
+
+This project is inteded to be runned with one of this frameworks:
+
+- laravel 5.6+
+- symfony 4.1+
+- laravel-zero 5.6+
+
+
 ## Install
 
 ```sh
