@@ -31,16 +31,11 @@ class SelectableInputsTest extends TestCase
             ->will($this->returnValue($helperSet));
 
         $inputMock = $this->getMockBuilder(InputInterface::class)->getMock();
-        $trait->method('getInput')
-            ->will($this->returnValue($inputMock));
-
         $outputMock = $this->getMockBuilder(OutputInterface::class)->getMock();
         $outputMock->method('getFormatter')
             ->will($this->returnValue(new OutputFormatter()));
-        $trait->method('getOutput')
-            ->will($this->returnValue($outputMock));
 
-        $trait->enableSelectHelper();
+        $trait->enableSelectHelper($inputMock, $outputMock);
 
         $this->assertTrue($helperSet->has('selection'), 'Selection helper was not enabled');
     }
