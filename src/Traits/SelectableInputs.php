@@ -4,13 +4,15 @@ namespace EddIriarte\Console\Traits;
 use EddIriarte\Console\Helpers\SelectionHelper;
 use EddIriarte\Console\Inputs\CheckboxInput;
 use EddIriarte\Console\Inputs\RadioInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 trait SelectableInputs
 {
-    public function enableSelectHelper()
+    public function enableSelectHelper(InputInterface $input, OutputInterface $output)
     {
         $this->getHelperSet()->set(
-            new SelectionHelper($this->getInput(), $this->getOutput())
+            new SelectionHelper($input, $output)
         );
     }
 
