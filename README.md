@@ -1,5 +1,7 @@
 # Console-Selection
 
+This for is to make console-select work with Symfony 5.0+. 
+
 A fancy selection interface for symfony's console component.
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eddiriarte/console-select/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eddiriarte/console-select/?branch=master)
@@ -17,7 +19,7 @@ A fancy selection interface for symfony's console component.
 This project is inteded to be runned with one of this frameworks:
 
 - laravel 5.6+
-- symfony 4.1+
+- symfony 5.0+
 - laravel-zero 5.6+
 
 
