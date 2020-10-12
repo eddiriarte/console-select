@@ -5,6 +5,10 @@
     "type": "library",
     "authors": [
         {
+            "name": "eddiriarte",
+            "email": "eddiriarte@gmail.com"
+        },
+        {
             "name": "Thomas Sihapanya",
             "email": "sihapanya.thomas@gmail.com"
         }
