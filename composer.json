@@ -1,5 +1,5 @@
 {
-    "name": "tomsihap/console-select",
+    "name": "eddiriarte/console-select",
     "description": "A fancy selection interface for symfony's console component.",
     "keywords": ["library", "symfony", "console", "cli", "select", "checkbox", "radio"],
     "type": "library",
@@ -7,10 +7,6 @@
         {
             "name": "eddiriarte",
             "email": "eddiriarte@gmail.com"
-        },
-        {
-            "name": "Thomas Sihapanya",
-            "email": "sihapanya.thomas@gmail.com"
         }
     ],
     "license": "MIT",
