@@ -1,7 +1,5 @@
 # Console-Selection
 
-This project is forked from eddiriarte/console-select to make console-select work with Symfony 5.0+. 
-
 A fancy selection interface for symfony's console component.
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/eddiriarte/console-select/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/eddiriarte/console-select/?branch=master)
