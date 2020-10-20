@@ -4,3 +4,4 @@
 
 \.scannerwork/
 
+.phpunit.result.cache

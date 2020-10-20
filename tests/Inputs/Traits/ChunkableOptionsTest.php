@@ -80,7 +80,6 @@ class ChunkableOptionsTest extends TestCase
 
     /**
      * @test
-     * @expectedException EddIriarte\Console\Inputs\Exceptions\IndexOutOfRange
      */
     public function it_throws_exception_by_wrong_chunk_index()
     {
@@ -95,6 +94,8 @@ class ChunkableOptionsTest extends TestCase
         );
         $trait->method('getOptions')
             ->will($this->returnValue(['a', 'b', 'c', 'd', ]));
+
+        $this->expectException(\EddIriarte\Console\Inputs\Exceptions\IndexOutOfRange::class);
 
         $chunk = $trait->getChunkAt(3);
     }
@@ -122,7 +123,6 @@ class ChunkableOptionsTest extends TestCase
 
     /**
      * @test
-     * @expectedException EddIriarte\Console\Inputs\Exceptions\IndexOutOfRange
      */
     public function it_throws_exception_by_wrong_entry_index()
     {
@@ -137,6 +137,8 @@ class ChunkableOptionsTest extends TestCase
         );
         $trait->method('getOptions')
             ->will($this->returnValue(['a', 'b', 'c', 'd', ]));
+
+        $this->expectException(\EddIriarte\Console\Inputs\Exceptions\IndexOutOfRange::class);
 
         $entry = $trait->getEntryAt(2, 4);
     }
