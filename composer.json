@@ -1,5 +1,5 @@
 {
-    "name": "jmuxfeldt/console-select",
+    "name": "eddiriarte/console-select",
     "description": "A fancy selection interface for symfony's console component.",
     "keywords": ["library", "symfony", "console", "cli", "select", "checkbox", "radio"],
     "type": "library",
