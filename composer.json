@@ -31,7 +31,6 @@
         }
     },
     "scripts": {
-        "test": "phpunit",
-        "code-coverage": "phpunit --coverage-html=builds/phpunit/ --log-junit builds/logs/phpunit.xml"
+        "test": "phpunit"
     }
 }
