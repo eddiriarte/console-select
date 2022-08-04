@@ -61,7 +61,7 @@ class SelectionHelper implements HelperInterface
     /**
      * {@inheritdoc}
      */
-    public function getHelperSet():HelperSet
+    public function getHelperSet():?HelperSet
     {
         return $this->helperSet;
     }

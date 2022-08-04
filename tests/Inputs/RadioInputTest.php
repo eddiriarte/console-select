@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Inputs;
 
+use EddIriarte\Console\Inputs\Exceptions\UnknownOption;
 use EddIriarte\Console\Inputs\RadioInput;
 use PHPUnit\Framework\TestCase;
 
@@ -31,12 +32,11 @@ class RadioInputTest extends TestCase
 
     /**
      * @test
-     * @expectedException  EddIriarte\Console\Inputs\Exceptions\UnknownOption
      */
     public function it_throws_exception_on_selects()
     {
         $checkbox = new RadioInput('Select an item!', ['a', 'b', 'c']);
-
+        $this->expectException(UnknownOption::class);
         $checkbox->select('f');
     }
 }
