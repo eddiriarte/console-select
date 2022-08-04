@@ -17,8 +17,9 @@ A fancy selection interface for symfony's console component.
 This project is inteded to be runned with one of this frameworks:
 
 - laravel 5.6+
-- symfony 5.0+
+- symfony 6.1+
 - laravel-zero 5.6+
+
 
 
 ## Install

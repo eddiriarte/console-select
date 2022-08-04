@@ -83,7 +83,7 @@ class SelectHandlerTest extends TestCase
      */
     public function it_triggers_selection()
     {
-        $stream = $this->getInputStream(Key::RIGHT . Key::SELECT);
+        $stream = $this->getInputStream(Key::DOWN . Key::SELECT);
         $input = $this->createStreamableInputInterface($stream);
         $output = $this->createOutputInterface();
 
